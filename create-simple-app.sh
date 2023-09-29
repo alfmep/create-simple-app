@@ -207,7 +207,16 @@ PKG_CONFIG=\$(CROSS_COMPILE)pkg-config
 #
 DEFINES=-D_GNU_SOURCE
 CPPFLAGS=-MMD \$(DEFINES)
-CFLAGS=-pipe -Wall -O2 -g -I.
+CFLAGS=-pipe -Wall -I.
+#
+# By default, use debug flags.
+# For release flags, run 'make RELEASE=1'
+#
+ifneq (\$(RELEASE),1)
+CFLAGS+=-Og -g
+else
+CFLAGS+=-O3
+endif
 EOF
 
 
@@ -228,8 +237,15 @@ for lib in $EXTRA_LIBS; do
 done
 
 
-echo "" >>"$MAKEFILE"
-echo "CXXFLAGS=\$(CFLAGS)" >>"$MAKEFILE"
+# Add C++ flags (same as CFLAGS)
+#
+cat >>"$MAKEFILE" <<EOF
+
+#
+# C++ flags are by default the same as C flags
+#
+CXXFLAGS=\$(CFLAGS)
+EOF
 
 
 # Add check for SYSROOT_DIR
