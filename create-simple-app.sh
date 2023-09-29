@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (C) 2022 Dan Arrhenius <dan@ultramarin.se>
+# Copyright (C) 2022,2023 Dan Arrhenius <dan@ultramarin.se>
 #
 # This file is part of create-simple-app
 #
@@ -182,11 +182,12 @@ for app in $APPS; do
 done
 echo "" >>"$MAKEFILE"
 for app in $APPS; do
-    echo "APP_OBJS_$app=${app}.o" >>"$MAKEFILE"
+    app_no_hyphen=`echo $app | tr "-" "_"`
+    echo "APP_OBJS_$app_no_hyphen=${app}.o" >>"$MAKEFILE"
     if [ $EXTENSION = cpp ]; then
-        echo "APP_OBJS_$app+=${app}-appargs.o" >>"$MAKEFILE"
+        echo "APP_OBJS_$app_no_hyphen+=${app}-appargs.o" >>"$MAKEFILE"
     fi
-    echo "DEP_FILES_${app}=\$(addsuffix .d,\$(basename \$(APP_OBJS_${app})))" >>"$MAKEFILE"
+    echo "DEP_FILES_${app_no_hyphen}=\$(addsuffix .d,\$(basename \$(APP_OBJS_${app_no_hyphen})))" >>"$MAKEFILE"
     echo "" >>"$MAKEFILE"
 done
 
@@ -262,15 +263,16 @@ EOF
 
 echo "" >>"$MAKEFILE"
 for app in $APPS; do
+    app_no_hyphen=`echo $app | tr "-" "_"`
     echo "" >>"$MAKEFILE"
     if [ "$EXTENSION" == "cpp" ];then
 	cat >>"$MAKEFILE" <<EOF
-$app:	\$(APP_OBJS_$app)
+$app:	\$(APP_OBJS_$app_no_hyphen)
 	\$(CXX) \$(CXXFLAGS) -o \$@ \$^ \$(LDFLAGS)
 EOF
     else
 	cat >>"$MAKEFILE" <<EOF
-$app:	\$(APP_OBJS_$app)
+$app:	\$(APP_OBJS_$app_no_hyphen)
 	\$(CC) \$(CFLAGS) -o \$@ \$^ \$(LDFLAGS)
 EOF
     fi
@@ -291,7 +293,8 @@ cat >>"$MAKEFILE" <<EOF
 #
 EOF
 for app in $APPS; do
-    echo "-include \$(DEP_FILES_${app})" >>"$MAKEFILE"
+    app_no_hyphen=`echo $app | tr "-" "_"`
+    echo "-include \$(DEP_FILES_${app_no_hyphen})" >>"$MAKEFILE"
 done
 
 
