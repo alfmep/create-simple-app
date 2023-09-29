@@ -141,16 +141,13 @@ echo "*.d" >>"$DIR_NAME"/.gitignore
 HDR_EXTENSION_UPPER=`echo $HDR_EXTENSION | tr [a-z] [A-Z]`
 for app in $APPS; do
     app_upper=`echo $app | tr [a-z] [A-Z] | tr "-" "_"`
-#    if ! cp ~/bin/create-simple-app/app-template.$EXTENSION "$DIR_NAME"/"$app".$EXTENSION; then
     if ! cp "$TEMPLATE_DIR"/app-template.$EXTENSION "$DIR_NAME"/"$app".$EXTENSION; then
 	exit 1
     fi
     if [ $EXTENSION = cpp ]; then
-	#if ! cp ~/bin/create-simple-app/appargs-template.$EXTENSION "$DIR_NAME"/"$app"-appargs.$EXTENSION; then
 	if ! cp "$TEMPLATE_DIR"/appargs-template.$EXTENSION "$DIR_NAME"/"$app"-appargs.$EXTENSION; then
 	    exit 1
 	fi
-	#if ! cp ~/bin/create-simple-app/appargs-template.$HDR_EXTENSION "$DIR_NAME"/"$app"-appargs.$HDR_EXTENSION; then
 	if ! cp "$TEMPLATE_DIR"/appargs-template.$HDR_EXTENSION "$DIR_NAME"/"$app"-appargs.$HDR_EXTENSION; then
 	    exit 1
 	fi
