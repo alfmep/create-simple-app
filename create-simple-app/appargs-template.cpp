@@ -14,13 +14,13 @@
 //------------------------------------------------------------------------------
 void appargs_t::print_usage_and_exit (std::ostream& out, int exit_code)
 {
-    out << std::endl
-        << "Usage: " << program_invocation_short_name << " [OPTIONS]" << std::endl
-        << std::endl
-        << "  -h, --help    Print this help message." << std::endl
-        << std::endl;
+    out << std::endl;
+    out << "Usage: " << program_invocation_short_name << " [OPTIONS]" << std::endl;
+    out << std::endl;
+    out << "  -h, --help    Print this help message." << std::endl;
+    out << std::endl;
 
-        exit (exit_code);
+    exit (exit_code);
 }
 
 
