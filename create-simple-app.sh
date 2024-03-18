@@ -39,7 +39,7 @@ function print_help() {
 
 CUR_DIR=`pwd`
 TEMPLATE_BASE_DIR=$(dirname $(readlink -f "$0"))
-TEMPLATE_DIR=$TEMPLATE_BASE_DIR/create-simple-app
+TEMPLATE_DIR=$TEMPLATE_BASE_DIR/app-template
 
 APPS=""
 DIR_NAME=""
