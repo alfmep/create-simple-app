@@ -162,7 +162,7 @@ create_autotools()
     create_makefile_am
     populate_gitignore
 
-    cp $TEMPLATE_BASE_DIR/autogen.sh $DIR_NAME/
+    cp $TEMPLATE_DIR/autogen.sh $DIR_NAME/
     chmod +x $DIR_NAME/autogen.sh
     cd "$DIR_NAME" && git add autogen.sh && cd "$CUR_DIR"
 }
