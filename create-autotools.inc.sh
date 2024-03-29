@@ -83,12 +83,14 @@ create_makefile_am()
     cat >$MAKEFILE_AM <<EOF
 ACLOCAL_AMFLAGS=-I m4
 
-AM_CPPFLAGS = -D_GNU_SOURCE -DSYSCONFDIR='"\${sysconfdir}"' -DLOCALSTATEDIR='"\${localstatedir}"'
+# Common compiler flags
+#
+AM_CPPFLAGS = -I\$(srcdir) -D_GNU_SOURCE -DSYSCONFDIR='"\${sysconfdir}"' -DLOCALSTATEDIR='"\${localstatedir}"'
 EOF
     if [ $EXTENSION = cpp ]; then
-        echo "AM_CXXFLAGS = -Wall -pipe -O2 -g" >>$MAKEFILE_AM
+        echo "AM_CXXFLAGS = -Wall -pipe -Og -g" >>$MAKEFILE_AM
     else
-        echo "AM_CFLAGS = -Wall -pipe -O2 -g" >>$MAKEFILE_AM
+        echo "AM_CFLAGS = -Wall -pipe -Og -g" >>$MAKEFILE_AM
     fi
     echo "AM_LDFLAGS =" >>$MAKEFILE_AM
     echo "" >>$MAKEFILE_AM
