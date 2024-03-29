@@ -75,9 +75,12 @@ EOF
     fi
 
     echo "" >>$CMAKEFILE
-    echo "# Compiler flags" >>$CMAKEFILE
+    echo "# Common compiler flags" >>$CMAKEFILE
     echo "#" >>$CMAKEFILE
     echo "add_compile_options (-Wall -D_GNU_SOURCE)" >>$CMAKEFILE
+    echo "if (NOT CMAKE_BUILD_TYPE MATCHES \"^[Rr]elease\")" >>$CMAKEFILE
+    echo "    add_compile_options (-Og -g)" >>$CMAKEFILE
+    echo "endif()" >>$CMAKEFILE
     echo "" >>$CMAKEFILE
 
 
@@ -87,8 +90,16 @@ EOF
         app_no_hyphen=`echo $app | tr "-" "_"`
 
         echo "" >>$CMAKEFILE
+        echo "# Application $app" >>$CMAKEFILE
+        echo "#" >>$CMAKEFILE
         echo "add_executable ($app"  >>$CMAKEFILE
         echo "    ${app}.$EXTENSION" >>$CMAKEFILE
+        echo ")" >>$CMAKEFILE
+
+        echo "target_include_directories ($app"  >>$CMAKEFILE
+        echo "    PRIVATE" >>$CMAKEFILE
+        echo "    \$<BUILD_INTERFACE:\${CMAKE_CURRENT_SOURCE_DIR}>" >>$CMAKEFILE
+        echo "    \$<BUILD_INTERFACE:\${CMAKE_CURRENT_BINARY_DIR}>" >>$CMAKEFILE
         echo ")" >>$CMAKEFILE
     done
 
